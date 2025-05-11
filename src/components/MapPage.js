@@ -1,3 +1,5 @@
+// MapPage.js
+
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import MapComponent from "./MapComponent";
@@ -10,25 +12,17 @@ const MapPage = () => {
   const [isCardListVisible, setIsCardListVisible] = useState(true); // 카드 보이기 여부
   const cardRefs = useRef({});
 
-  // 시설 각각 API에서 로드 후 병합
+  // 전체 시설 API에서 불러오기
   useEffect(() => {
-    const fetchHospitals = axios.get("http://localhost:8000/places/병원");
-    const fetchShelters = axios.get("http://localhost:8000/places/대피소");
-  
-    Promise.all([fetchHospitals, fetchShelters])
-      .then(([res1, res2]) => {
-        const hospitals = res1.data.map((f) => ({
+    axios
+      .get("http://localhost:8000/places")
+      .then((res) => {
+        // id 앞에 prefix 붙여서 마커 & 카드 스크롤에 사용할 고유 ID 구성
+        const updated = res.data.map((f) => ({
           ...f,
-          type: "병원",
-          id: `hospital_${f.id}`,
+          id: `${f.type === "병원" ? "hospital" : "shelter"}_${f.id}`,
         }));
-        const shelters = res2.data.map((f) => ({
-          ...f,
-          type: "대피소",
-          id: `shelter_${f.id}`,
-        }));
-  
-        setFacilities([...hospitals, ...shelters]);
+        setFacilities(updated); // ✅ 상태에 반영
       })
       .catch((err) => {
         console.error("전체 시설 데이터를 불러오지 못했어요", err);
