@@ -46,7 +46,7 @@ const FacilityCardList = ({
         width: "25%",
         padding: "1rem",
         backgroundColor: "#f8f8f8",
-        height: "100vh",
+        height: "90vh",
         overflowY: "auto",
         position: "relative",
       }}
