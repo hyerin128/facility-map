@@ -93,8 +93,33 @@ const StatisticsPage = () => {
       });
   }, []);
 
+  // csv 파일 다운로드 링크
+  const targetUrl = "http://localhost:8000/places/download-csv";
+
   return (
     <div style={{ width: "100%", padding: "2rem", display: "flex", flexDirection: "column", gap: "2rem" }}>
+        {/* 다운로드 버튼을 추가 */}
+      <button
+        onClick={() => {
+          window.location.href = targetUrl;
+        }}
+        style={{
+          padding: "0.75rem 1.5rem",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          fontSize: "1rem",
+          cursor: "pointer",
+          alignSelf: "flex-start",
+          transition: "background-color 0.2s",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#45a049")}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#4CAF50")}
+      >
+        csv파일 다운로드
+      </button>
+        
         <div style={{ flex: 1 }}>
             <CategoryButtons />
         </div>
